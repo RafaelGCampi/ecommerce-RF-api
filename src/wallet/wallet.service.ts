@@ -16,11 +16,13 @@ export class WalletService {
     const wallet = new Wallet();
     wallet.name= createWalletDto.name;
     wallet.description= createWalletDto.description;
+    wallet.coins= createWalletDto.coins;
+    ////wallet.active createWalletDto.active;
     return this.walletsRepository.save(wallet);
   }
 
   async findAll(): Promise<Wallet[]> {
-    return this.walletsRepository.find();
+    return this.walletsRepository.find({relations:['user']});
   }
 
   findOne(id: string): Promise<Wallet> {

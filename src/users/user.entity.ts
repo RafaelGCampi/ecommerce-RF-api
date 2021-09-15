@@ -1,5 +1,6 @@
 import { Wallet } from 'src/wallet/wallet.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { WalletService } from 'src/wallet/wallet.service';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -12,7 +13,6 @@ export class User {
   @Column()
   password: string;
 
-
   @Column()
   firstName: string;
 
@@ -22,6 +22,10 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @OneToOne(type=>Wallet)
-  wallet: Wallet[]
+  @OneToOne(() => Wallet, (wallet)=> wallet.user,{
+    cascade: ['insert', 'update'],
+    eager: true,
+  })
+  @JoinColumn()
+  public wallet: Wallet;
 }

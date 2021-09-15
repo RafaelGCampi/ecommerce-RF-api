@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('wallet')
 export class WalletController {
@@ -9,9 +10,11 @@ export class WalletController {
 
   @Post()
   create(@Body() createWalletDto: CreateWalletDto) {
+    console.log(createWalletDto);
     return this.walletService.create(createWalletDto);
   }
 
+  //@UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.walletService.findAll();
